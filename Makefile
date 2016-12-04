@@ -63,7 +63,7 @@ compile:
 
 .PHONY: install-tmp
 install-tmp:
-	mkdir -p /tmp/installdir-$(NAME)-$(VERSION);
+	mkdir -p /tmp/installdir-$(NAME)-$(VERSION)/bin;
 	cd ninja && \
 		cp ./ninja /tmp/installdir-$(NAME)-$(VERSION)/bin/ninja;
 
