@@ -56,7 +56,7 @@ install-deps:
 compile:
 	git clone -q -b v$(VERSION) https://github.com/ninja-build/ninja.git
 	cd ninja && \
-		./configure.py --bootstrap --verbose --platform=linux --host=linux
+		./configure.py --bootstrap --verbose --platform=linux --host=linux \
 	;
 
 #-------------------------------------------------------------------------------
