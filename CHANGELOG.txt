@@ -1,0 +1,2 @@
+* Sat Dec 3 2016 Ryan Parman <ryan@ryanparman.com> 1.7.2-1
+- Bundles ninja-build 1.7.2.
