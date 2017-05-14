@@ -7,7 +7,9 @@ VENDOR="Ninja Build Team"
 MAINTAINER="Ryan Parman"
 DESCRIPTION="Ninja is a small build system with a focus on speed."
 URL=https://ninja-build.org
-RHEL=$(shell rpm -q --queryformat '%{VERSION}' centos-release)
+ACTUALOS=$(shell osqueryi "select * from os_version;" --json | jq -r ".[].name")
+EL=$(shell if [[ "$(ACTUALOS)" == "Amazon Linux AMI" ]]; then echo alami; else echo el; fi)
+RHEL=$(shell [[ -f /etc/centos-release ]] && rpm -q --queryformat '%{VERSION}' centos-release)
 
 #-------------------------------------------------------------------------------
 
@@ -26,6 +28,8 @@ info:
 	@ echo "MAINTAINER:  $(MAINTAINER)"
 	@ echo "DESCRIPTION: $(DESCRIPTION)"
 	@ echo "URL:         $(URL)"
+	@ echo "OS:          $(ACTUALOS)"
+	@ echo "EL:          $(EL)"
 	@ echo "RHEL:        $(RHEL)"
 	@ echo " "
 
@@ -90,7 +94,7 @@ package:
 		--rpm-compression gzip \
 		--rpm-os linux \
 		--rpm-changelog CHANGELOG.txt \
-		--rpm-dist el$(RHEL) \
+		--rpm-dist $(EL)$(RHEL) \
 		--rpm-auto-add-directories \
 		usr/local/bin \
 	;
@@ -99,4 +103,4 @@ package:
 
 .PHONY: move
 move:
-	mv *.rpm /vagrant/repo/
+	[[ -d /vagrant/repo ]] && mv *.rpm /vagrant/repo/
